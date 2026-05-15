@@ -73,26 +73,33 @@ FOOD_DATABASE = {
         # add individual dish here
     },
     "Dinner": {
-        "3 Rice, 3 Small Chicks, Vegs": {"cal": 950, "prot": 50}
+        "3 Rice, 3 Small Chicks, Vegs": {"cal": 950, "prot": 50},
+        "3 Rice, 1/2 Body Siakap, Vegs": {"cal": 790 , "prot": 51}
         # add individual dish here
     },
     "Snacks/Other": {
+        "Green Tea Latte": {"cal": 130, "prot": 2},
+        "3-4 pcs Kuih Raya": {"cal": 180, "prot": 1}
         # add individual dish here
     },
     "Supplements": {
-        "Creatine (5g)": {"cal": 0, "prot": 0}
+        "Creatine (5g)": {"cal": 0, "prot": 0},
+        "Protein ()": {"cal": 0, "prot": 0}
         # can add more here
     }
 }
 
-# TODO : complete this workout database
 # WORKOUT DATABASE
 WORKOUT_DATABASE = {
-    "Chest": ["Flat Bench Press", "Incline Bench Press", "Decline Bench Press", "Incline DB Press", "Chest Fly", "Push-ups"],
-    "Back": ["Barbell Row", "Lat Pulldown", "Deadlift", "Pull-ups"],
-    "Legs": ["Barbell Squat", "Leg Press", "Leg Extension", "Calf Raise"],
-    "Arms": ["DB Curl", "Barbell Curl", "Tricep Pushdown", "Hammer Curl"],
-    "Shoulders": ["Overhead Press", "Lateral Raise", "Face Pulls", "Front Raise"]
+    "Chest": ["Machine Pec Deck", "Weighted Dips", "Flat Bench Press", "Incline Bench Press", "Decline Bench Press", "DB Chest Fly", "Incline Cable Fly", "Decline Cable Fly", "Push-Ups"],
+    "Back": ["Machine Lat Pullover", "DB Shrugs", "Reverse Pec Deck", "T-Bar Row", "Weighted Pull-Up", "Machine Row", "Barbell Shrug", "DB Shrug"],
+    "Legs": ["Standing Calf Raise", "Nautilus Glute Drive", "Barbell Hip Thrust", "DB Walking Lunges", "DB Lunges", "Seated Leg Curl", "Lying Leg Curl", "Leg Extension", "Romanian Deadlift"],
+    "Bicep": ["DB Wrist Curls", "DB Wrist Extensions", "Bayesian Cable Curl", "Preacher Curl"],
+    "Tricep": ["Overhead Cable Triceps Extension", "Tricep Pushdown", "Overhead DB Triceps Extension", "Single Arm OH DB Triceps Extension", "DB Skull Crusher"],
+    "Shoulder": ["Barbell Overhead Press", "Lateral Raise", "Face Pulls", "Front Raise"],
+    "Neck" : ["Neck Curls", "Neck Extensions"],
+    "Abs": ["Cable Crunch", "Flat Sit-Up", "Decline Sit-Up", "Supported Leg Raise"],
+    "Core": ["Deadlift"]
 }
 
 # UI SECTION -----------------------------------------------------------------
