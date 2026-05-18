@@ -62,30 +62,29 @@ protein_remaining = user_target_prot - total_protein_today
 # TODO : complete this food database
 # FOOD DATABASE
 FOOD_DATABASE = {
-    "Breakfast": {
-        "Gardenia Wholemeal (2 Slices)": {"cal": 150, "prot": 7},
-        "Choc Peanut Spread (2 tbsp)": {"cal": 195, "prot": 8},
-        "Nasi Lemak + 1 Half Egg + Fruits": {"cal": 645, "prot": 16}
-        # can add more here
+    "Carbs/Base": {
+        "White Rice (1 scoop)": {"cal": 160, "prot": 3},
+        "Nasi Lemak Rice (1 portion)": {"cal": 350, "prot": 5},
+        "Gardenia Wholemeal (2 slices)": {"cal": 150, "prot": 7},
     },
-    "Lunch": {
-        "3 Rice, 1/2 Body Siakap, Vegs": {"cal": 790 , "prot": 51}
-        # add individual dish here
+    "Proteins": {
+        "Ayam Goreng (Drumstick)": {"cal": 250, "prot": 15},
+        "Ikan Keli (Fried)": {"cal": 320, "prot": 22},
+        "Ikan Siakap (1/2 Body)": {"cal": 250, "prot": 35},
+        "Telur Mata": {"cal": 190, "prot": 6},
+        "Ayam Masak Kunyit (1 pc)": {"cal": 140, "prot": 8},
     },
-    "Dinner": {
-        "3 Rice, 3 Small Chicks, Vegs": {"cal": 950, "prot": 50},
-        "3 Rice, 1/2 Body Siakap, Vegs": {"cal": 790 , "prot": 51}
-        # add individual dish here
+    "Sides/Veggies": {
+        "Sayur Campur (1 scoop)": {"cal": 60, "prot": 2},
+        "Sambal + Anchovies": {"cal": 100, "prot": 3},
     },
-    "Snacks/Other": {
+    "Drinks/Snacks": {
         "Green Tea Latte": {"cal": 130, "prot": 2},
-        "3-4 pcs Kuih Raya": {"cal": 180, "prot": 1}
-        # add individual dish here
+        "Kuih Raya (Small portion)": {"cal": 180, "prot": 1},
     },
     "Supplements": {
         "Creatine (5g)": {"cal": 0, "prot": 0},
-        "Protein ()": {"cal": 0, "prot": 0}
-        # can add more here
+        "Whey Protein (Future)": {"cal": 0, "prot": 0}
     }
 }
 
@@ -326,94 +325,147 @@ with log:
 with view:
     st.subheader("Growth Zone 📈")
 
-    # body weight trend with target line
-    if not bodystats_df.empty:
-        st.write("Weight Progress (kg)")
+    tab_graphs, tab_insights = st.tabs(["Graphs", "Insights"])
 
-        plot_df = bodystats_df.copy()
-        plot_df['Date'] = pd.to_datetime(plot_df['Date']).dt.date
+    with tab_graphs:
+        st.subheader("Graph to Progress 🔍")
 
-        # create dual line chart (actual vs target)
-        weight_data = plot_df.set_index("Date")[["Weight", "Target Weight"]]
-        st.line_chart(weight_data)
-    else:
-        st.info("Log your weight to see the trend!")
+        # body weight trend with target line
+        if not bodystats_df.empty:
+            st.write("Weight Progress (kg)")
 
-    st.divider()
+            plot_df = bodystats_df.copy()
+            plot_df['Date'] = pd.to_datetime(plot_df['Date']).dt.date
 
-    # nutrition consistency with target line
-    if not nutrition_df.empty:
-        st.write("Daily Calorie Intake")
+            # create dual line chart (actual vs target)
+            weight_data = plot_df.set_index("Date")[["Weight", "Target Weight"]]
+            st.line_chart(weight_data)
+        else:
+            st.info("Log your weight to see the trend!")
 
-        # 1. Prepare the data
-        daily_cals = nutrition_df.groupby(nutrition_df['Date'].dt.date)['Calories'].sum().reset_index()
-        daily_cals.columns = ['Date', 'Calories']
+        st.divider()
 
-        # 2. Create the bar chart
-        bars = alt.Chart(daily_cals).mark_bar(color="#ff4b4b").encode(
-            x='Date:T',
-            y='Calories:Q'
-        )
+        # nutrition consistency with target line
+        if not nutrition_df.empty:
+            st.write("Daily Calorie Intake")
 
-        # 3. Create text labels
-        text = bars.mark_text(
-            align='center',
-            baseline='bottom',
-            dy=5,
-            color='white'
-        ).encode(text='Calories:Q')
+            # 1. Prepare the data
+            daily_cals = nutrition_df.groupby(nutrition_df['Date'].dt.date)['Calories'].sum().reset_index()
+            daily_cals.columns = ['Date', 'Calories']
 
-        # 4. Create Target Line
-        rule = alt.Chart(pd.DataFrame({'y': [user_target_cal]})).mark_rule(color='white', strokeDash=[5,5]).encode(y='y:Q')
+            # 2. Create the bar chart
+            bars = alt.Chart(daily_cals).mark_bar(color="#ff4b4b").encode(
+                x='Date:T',
+                y='Calories:Q'
+            )
 
-        # Layer them together
-        st.altair_chart(bars + text + rule, use_container_width=True)
+            # 3. Create text labels
+            text = bars.mark_text(
+                align='center',
+                baseline='bottom',
+                dy=5,
+                color='white'
+            ).encode(text='Calories:Q')
 
-    else:
-        st.info("Eat to see your fuel charts!")
+            # 4. Create Target Line
+            rule = alt.Chart(pd.DataFrame({'y': [user_target_cal]})).mark_rule(color='white', strokeDash=[5,5]).encode(y='y:Q')
 
-    st.divider()
+            # Layer them together
+            st.altair_chart(bars + text + rule, use_container_width=True)
 
-    # strength progress
-    try:
-        workouts_df = conn.read(worksheet="Workouts", ttl=0)
+        else:
+            st.info("Eat to see your fuel charts!")
+
+        st.divider()
+
+        # strength progress
+        try:
+            workouts_df = conn.read(worksheet="Workouts", ttl=0)
+            if not workouts_df.empty:
+                st.write("Iron Progress")
+
+                # selection
+                ex_to_view = st.selectbox("View Progress for:", workouts_df['Exercise'].unique())
+
+                # filter for chosen exercise
+                ex_data = workouts_df[workouts_df['Exercise'] == ex_to_view].copy()
+                # convert 'date' to datetime objects and strip the time
+                ex_data['Date'] = pd.to_datetime(ex_data['Date']).dt.date
+
+                # calculation for volume vs max weight
+                # why? volume captures progress even if weight stay the same
+                ex_data['Volume'] = ex_data['Weight'] * ex_data['Reps']
+
+                metric_to_plot = st.radio("Metric Type:", ["Max Weight (kg)", "Total Volume (kg)"], horizontal=True)
+
+                if metric_to_plot == "Max Weight (kg)":
+                    ex_trend = ex_data.groupby("Date")["Weight"].max()
+                    st.line_chart(ex_trend)
+                else:
+                    # group volume by date shows total work for that day
+                    ex_trend = ex_data.groupby("Date")["Volume"].sum()
+                    st.area_chart(ex_trend)
+                    st.caption("Total Weight moved (Weight x Reps) per session")
+
+        except:
+            st.write("No workouts logged yet.. go lift some iron!")
+
+        st.divider()
+
+        # muscle group distribution
         if not workouts_df.empty:
-            st.write("Iron Progress")
+            st.write("Muscle Group Distribution")
+            # count how many sets per muscle group
+            muscle_dist = workouts_df['Muscle Group'].value_counts()
+            st.bar_chart(muscle_dist)
 
-            # selection
-            ex_to_view = st.selectbox("View Progress for:", workouts_df['Exercise'].unique())
+        else:
+            st.info("Start your workouts!")
 
-            # filter for chosen exercise
-            ex_data = workouts_df[workouts_df['Exercise'] == ex_to_view].copy()
-            # convert 'date' to datetime objects and strip the time
-            ex_data['Date'] = pd.to_datetime(ex_data['Date']).dt.date
+    with tab_insights:
+        st.subheader("Insights to Action 🚩")
 
-            # calculation for volume vs max weight
-            # why? volume captures progress even if weight stay the same
-            ex_data['Volume'] = ex_data['Weight'] * ex_data['Reps']
+        # 1. Data filtering logic
+        # Get data from the last 7 days
+        last_7_days = datetime.now() - pd.Timedelta(days=7)
 
-            metric_to_plot = st.radio("Metric Type:", ["Max Weight (kg)", "Total Volume (kg)"], horizontal=True)
+        if not nutrition_df.empty:
+            weekly_fuel = nutrition_df[nutrition_df['Date'] >= last_7_days]
 
-            if metric_to_plot == "Max Weight (kg)":
-                ex_trend = ex_data.groupby("Date")["Weight"].max()
-                st.line_chart(ex_trend)
-            else:
-                # group volume by date shows total work for that day
-                ex_trend = ex_data.groupby("Date")["Volume"].sum()
-                st.area_chart(ex_trend)
-                st.caption("Total Weight moved (Weight x Reps) per session")
+            # Calculate consistency
+            daily_totals = weekly_fuel.groupby(weekly_fuel['Date'].dt.date)[['Calories', 'Protein']].sum()
+            days_hit_target = len(daily_totals[daily_totals['Calories'] >= user_target_cal])
 
-    except:
-        st.write("No workouts logged yet.. go lift some iron!")
+            # UI: Mini dashboard for the week
+            col_in1, col_in2 = st.columns(2)
+            with col_in1:
+                st.metric("Target Hit Rate", f"{days_hit_target} / 7 Days")
+            with col_in2:
+                avg_prot = daily_totals['Protein'].mean()
+                st.metric("Avg Weekly Protein", f"{avg_prot:.1f} g")
 
-    st.divider()
+            # 2. The bulk staple - top foods
+            st.markdown("#### 🏆 My Bulk Staples")
+            # Split the comma separated dish string and count individuals
+            all_foods = weekly_fuel['Dish'].str.split(', ').explode()
+            top_foods = all_foods.value_counts().head(3)
+            st.write("You relied of these most this week:")
+            for food, count in top_foods.items():
+                st.write(f"- **{food}**: {count} times")
 
-    # muscle group distribution
-    if not workouts_df.empty:
-        st.write("Muscle Group Distribution")
-        # count how many sets per muscle group
-        muscle_dist = workouts_df['Muscle Group'].value_counts()
-        st.bar_chart(muscle_dist)
+        st.divider()
 
-    else:
-        st.info("Start your workouts!")
+        # 3. Workout Comparison
+        if not workouts_df.empty:
+            st.markdown("#### 🦾 Last Session vs Best Session")
+            ex_list = workouts_df['Exercise'].unique()
+            selected_ex = st.selectbox("Compare Exercise:", ex_list, key="comp_ex")
+
+            ex_history = workouts_df[workouts_df['Exercise'] == selected_ex]
+
+            last_weight = ex_history.iloc[-1]['Weight']
+            max_weight = ex_history['Weight'].max()
+
+            c1, c2 = st.columns(2)
+            c1.metric("Last Lift", f"{last_weight} kg")
+            c2.metric("All-Time PB", f"{max_weight} kg", delta=f"{last_weight - max_weight} kg")
