@@ -64,6 +64,9 @@ protein_remaining = user_target_prot - total_protein_today
 FOOD_DATABASE = {
     "Carbs/Base": {
         "White Rice (1 scoop)": {"cal": 160, "prot": 3},
+        "White Rice (2 scoop)": {"cal": 320, "prot": 6},
+        "White Rice (3 scoop)": {"cal": 480, "prot": 9},
+        "White Rice (1 portion)": {"cal": 300, "prot": 5},
         "Nasi Lemak Rice (1 portion)": {"cal": 350, "prot": 5},
         "Gardenia Wholemeal (2 slices)": {"cal": 150, "prot": 7},
     },
