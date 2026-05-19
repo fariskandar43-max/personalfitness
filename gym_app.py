@@ -75,10 +75,12 @@ FOOD_DATABASE = {
         "Ikan Keli (Fried)": {"cal": 320, "prot": 22},
         "Ikan Siakap (1/2 Body)": {"cal": 250, "prot": 35},
         "Telur Mata": {"cal": 190, "prot": 6},
-        "Ayam Masak Kunyit (1 pc)": {"cal": 140, "prot": 8},
+        "Ayam Masak Kunyit (Meat)": {"cal": 140, "prot": 8},
+        "Ayam Masak Merah (Thigh)": {"cal": 350, "prot": 19},
+        "Kari Ayam (Wings)": {"cal": 150, "prot": 7}
     },
     "Sides/Veggies": {
-        "Sayur Campur (1 scoop)": {"cal": 60, "prot": 2},
+        "Mixed Veggies (1 scoop)": {"cal": 60, "prot": 2},
         "Sambal + Anchovies": {"cal": 100, "prot": 3},
     },
     "Drinks/Snacks": {
@@ -126,109 +128,141 @@ log, view = st.columns(2)
 with log:
     st.subheader("Log Zone 🖊️")
     tab_nutrition, tab_workout, tab_body_stats = st.tabs(["Daily Fuel","Iron Progress","Body Stats"])
+
     # nutrition tab
     with tab_nutrition:
         st.subheader("Eat to Grow 🍚")
 
-        # 1. UI: Category and multi select
-        # add "custom/manual" to dictionary or as standalone option
-        meal_categories = [cat for cat in FOOD_DATABASE.keys() if cat != "Supplements"] # remove the supplements category
-        selected_category = st.selectbox("Meal Category", meal_categories)
+        if "meal_basket" not in st.session_state:
+            st.session_state.meal_basket = []
 
-        # add the manual entry option to the food list
-        food_options = list(FOOD_DATABASE[selected_category].keys()) + ["➕ Manual Entry"]
-        selected_food = st.multiselect(
-            "Select Dish",
-            food_options,
-            key="food_selector"
-        ) # to select many foods and sum the calories and proteins
+        # 1. Quick meals option integration
+        is_quick_meal = st.checkbox("⚡ Use Quick Meal / Combo Preset")
 
-        # initialize totals
-        total_calories = 0
-        total_protein = 0
-        dish_parts = []
+        if is_quick_meal:
+            # add standalone category check for quick combos
+            combo_options = [
+                "Nasi Lemak + 1 Half Egg + Fruits"
+            ]
+            selected_combo = st.selectbox("Choose Preset Combo", combo_options)
 
-        # 2. Logic : handle the regulars (database items)
-        # filter out "manual entry"
-        db_items = [item for item in selected_food if item != "➕ Manual Entry"]
+            # preset parse mapping logic
+            preset_map = {
+                "Nasi Lemak + 1 Half Egg + Fruits": {"name": "Nasi Lemak Combo", "cal": 645, "prot": 16}
+            }
 
-        for item in db_items:
-            total_calories += FOOD_DATABASE[selected_category][item]["cal"]
-            total_protein += FOOD_DATABASE[selected_category][item]["prot"]
-            dish_parts.append(item)
+            if st.button("Add Combo to Log Basket"):
+                combo_data = preset_map[selected_combo]
+                st.session_state.meal_basket.append({
+                    "item": combo_data["name"],
+                    "cal": combo_data["cal"],
+                    "prot": combo_data["prot"]
+                })
+                st.success(f"Added {combo_data['name']} to basket!")
 
-        # 3. Logic : Handle manual entry
-        # check if user (me) choose manual entry, if not, show the list
-        if "➕ Manual Entry" in selected_food:
-            st.divider()
-            col_name, col_cal, col_prot = st.columns(3)
-            with col_name:
-                custom_name = st.text_input("What did you eat?", placeholder="e.g Cendol")
-            with col_cal:
-                custom_cal = st.number_input("Calories", min_value=0, step=10)
-            with col_prot:
-                custom_prot = st.number_input("Protein (g)", min_value=0, step=1)
+        else:
+            # Standard atomic selection process
 
-            if custom_name:
-                total_calories += custom_cal
-                total_protein += custom_prot
-                dish_parts.append(custom_name)
+            # 1. UI: Category and multi select
+            # add "custom/manual" to dictionary or as standalone option
+            meal_categories = [cat for cat in FOOD_DATABASE.keys() if cat != "Supplements"]  # remove the supplements category
+            selected_category = st.selectbox("Meal Category", meal_categories)
 
-            # set variables to manual input
-            dish_to_save = custom_name
-            calories_to_save = custom_cal
-            protein_to_save = custom_prot
+            # add the manual entry option to the food list
+            food_options = list(FOOD_DATABASE[selected_category].keys()) + ["➕ Manual Entry"]
+            selected_food = st.multiselect("Select Dish", food_options, key="food_selector")
 
-        # 4. Logic : Supplements Integration
+            # temporary manual capture scope
+            custom_name, custom_cal, custom_prot = "", 0, 0
+            if "➕ Manual Entry" in selected_food:
+                st.markdown("#### 📝 Custom Entry Specs")
+
+                col_name, col_cal, col_prot = st.columns(3)
+                with col_name:
+                    custom_name = st.text_input("What did you eat?", placeholder="e.g Cendol")
+                with col_cal:
+                    custom_cal = st.number_input("Calories", min_value=0, step=10)
+                with col_prot:
+                    custom_prot = st.number_input("Protein (g)", min_value=0, step=1)
+
+            # interactive basket append trigger
+            if st.button("📥 Add Selection to Basket"):
+                # handle database values
+                db_items = [item for item in selected_food if item != "➕ Manual Entry"]
+                for item in db_items:
+                    st.session_state.meal_basket.append({
+                        "item": item,
+                        "cal": FOOD_DATABASE[selected_category][item]["cal"],
+                        "prot": FOOD_DATABASE[selected_category][item]["prot"]
+                    })
+
+                # handle manual strings
+                if custom_name:
+                    st.session_state.meal_basket.append({
+                        "item": custom_name,
+                        "cal": custom_cal,
+                        "prot": custom_prot
+                    })
+                st.success("Items cached into current basket session!")
+
+        # 2. Logic : Supplements Integration
         st.subheader("Extra Supplements")
 
         # pull supplements key only
         supp_options = list(FOOD_DATABASE["Supplements"].keys())
-        selected_supps = st.multiselect(
-            "Select Boosters",
-            supp_options,
-            key="supp_selector"
-        )
+        selected_supps = st.multiselect("Select Boosters", supp_options, key="supp_selector")
 
-        for supp in selected_supps:
-            total_calories += FOOD_DATABASE["Supplements"][supp]["cal"]
-            total_protein += FOOD_DATABASE["Supplements"][supp]["prot"]
-            dish_parts.append(supp)
+        if st.button("➕ Add Supplements to Basket"):
+            for supp in selected_supps:
+                st.session_state.meal_basket.append({
+                    "item": supp,
+                    "cal": FOOD_DATABASE["Supplements"][supp]["cal"],
+                    "prot": FOOD_DATABASE["Supplements"][supp]["prot"]
+                })
+                st.success("Supplements verified and staged!")
 
-        # 5. UI : The Summary
-        full_dish_string = ", ".join(dish_parts)
-        if dish_parts:
-            st.info(f"Total for this log: {total_calories} kcal | {total_protein}g protein")
+        # 3. Dynamic aggregator view (display current basket status)
+        if st.session_state.meal_basket:
+            st.divider()
+            st.markdown("#### 🧺 Current Meal Basket Staging")
 
-        # 6. Action : Save to gsheets
-        # submitted = st.form_submit_button("Save Nutrition")
-        if st.button("Save Nutrition"):
-            if not dish_parts:
-                st.warning("Please select or enter food first!")
-            else:
-                # create dataframe
-                new_entry = pd.DataFrame([{
-                    "Date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                    "Meal": selected_category,
-                    "Dish": full_dish_string,
-                    "Calories": total_calories,
-                    "Protein": total_protein
-                }])
+            # loop values out of list items
+            staged_names = [x["item"] for x in st.session_state.meal_basket]
+            final_calories = sum(x["cal"] for x in st.session_state.meal_basket)
+            final_protein = sum(x["prot"] for x in st.session_state.meal_basket)
+            final_dish_string = ", ".join(staged_names)
 
-                # read-append-update
-                try:
-                    # use ttl=0 to get absolute latest data before saving
-                    existing_fuel = conn.read(worksheet="Nutritions", ttl=0)
-                    updated_fuel = pd.concat([existing_fuel, new_entry], ignore_index=True)
-                except:
-                    updated_fuel = new_entry
+            st.info(f"**Items Staged** {final_dish_string}\n\n**Accumulated Payload:** {final_calories} kcal | {final_protein}g protein")
 
-                # push back to nutrition worksheet
-                conn.update(worksheet="Nutritions", data=updated_fuel)
+            col_b1, col_b2 = st.columns(2)
+            with col_b1:
+                # 4. Action : Commit single integrated row packet back to target worksheet
+                if st.button("🚀 Push Whole Meal to Sheets", type="primary"):
+                    new_entry = pd.DataFrame([{
+                        "Date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                        "Dish": final_dish_string,
+                        "Calories": final_calories,
+                        "Protein": final_protein
+                    }])
 
-                st.success(f"Logged successfully! 🔥")
-                st.cache_data.clear()
-                st.rerun()
+                    try:
+                        # use ttl=0 to get absolute latest data before saving
+                        existing_fuel = conn.read(worksheet="Nutritions", ttl=0)
+                        updated_fuel = pd.concat([existing_fuel, new_entry], ignore_index=True)
+                    except:
+                        updated_fuel = new_entry
+
+                    # push back to nutrition worksheet
+                    conn.update(worksheet="Nutritions", data=updated_fuel)
+
+                    st.success("Perfect data insertion complete! 🔥")
+                    st.cache_data.clear()
+                    st.rerun()
+
+            with col_b2:
+                if st.button("🗑️ Clear Basket"):
+                    st.session_state.meal_basket = []
+                    st.rerun()
 
     # workout tab
     with tab_workout:
