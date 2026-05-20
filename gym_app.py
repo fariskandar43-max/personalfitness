@@ -77,7 +77,9 @@ FOOD_DATABASE = {
         "Telur Mata": {"cal": 190, "prot": 6},
         "Ayam Masak Kunyit (Meat)": {"cal": 140, "prot": 8},
         "Ayam Masak Merah (Thigh)": {"cal": 350, "prot": 19},
-        "Kari Ayam (Wings)": {"cal": 150, "prot": 7}
+        "Kari Ayam (Wings)": {"cal": 150, "prot": 7},
+        "Ayam Masak Lemak": {"cal": 300, "prot": 21},
+        "Ayam Paprik (Standard)": {"cal": 220, "prot": 20}
     },
     "Sides/Veggies": {
         "Mixed Veggies (1 scoop)": {"cal": 60, "prot": 2},
