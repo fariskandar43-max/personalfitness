@@ -69,6 +69,8 @@ FOOD_DATABASE = {
         "White Rice (1 portion)": {"cal": 300, "prot": 5},
         "Nasi Lemak Rice (1 portion)": {"cal": 350, "prot": 5},
         "Gardenia Wholemeal (2 slices)": {"cal": 150, "prot": 7},
+        "Nasi Goreng (1 portion)": {"cal": 550, "prot": 11},
+        "Nasi Briyani (1 portion)": {"cal": 450, "prot": 8}
     },
     "Proteins": {
         "Ayam Goreng (Drumstick)": {"cal": 250, "prot": 15},
@@ -79,7 +81,9 @@ FOOD_DATABASE = {
         "Ayam Masak Merah (Thigh)": {"cal": 350, "prot": 19},
         "Kari Ayam (Wings)": {"cal": 150, "prot": 7},
         "Ayam Masak Lemak": {"cal": 300, "prot": 21},
-        "Ayam Paprik (Standard)": {"cal": 220, "prot": 20}
+        "Ayam Paprik (Standard)": {"cal": 220, "prot": 20},
+        "Ayam Goreng Kunyit (Standard)": {"cal": 240, "prot": 20},
+        "Ayam Kerutuk (Standard)": {"cal": 320, "prot": 20}
     },
     "Sides/Veggies": {
         "Mixed Veggies (1 scoop)": {"cal": 60, "prot": 2},
@@ -88,6 +92,7 @@ FOOD_DATABASE = {
     "Drinks/Snacks": {
         "Green Tea Latte": {"cal": 130, "prot": 2},
         "Kuih Raya (Small portion)": {"cal": 180, "prot": 1},
+        "Ice Cream Dark Choc Borneo": {"cal": 222, "prot": 3}
     },
     "Supplements": {
         "Creatine (5g)": {"cal": 0, "prot": 0},
