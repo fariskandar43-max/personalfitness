@@ -70,7 +70,8 @@ FOOD_DATABASE = {
         "Nasi Lemak Rice (1 portion)": {"cal": 350, "prot": 5},
         "Gardenia Wholemeal (2 slices)": {"cal": 150, "prot": 7},
         "Nasi Goreng (1 portion)": {"cal": 550, "prot": 11},
-        "Nasi Briyani (1 portion)": {"cal": 450, "prot": 8}
+        "Nasi Briyani (1 portion)": {"cal": 450, "prot": 8},
+        "Nasi Hujan Panas (1 portion)": {"cal": 420, "prot": 7}
     },
     "Proteins": {
         "Ayam Goreng (Drumstick)": {"cal": 250, "prot": 15},
@@ -79,6 +80,7 @@ FOOD_DATABASE = {
         "Telur Mata": {"cal": 190, "prot": 6},
         "Ayam Masak Kunyit (Meat)": {"cal": 140, "prot": 8},
         "Ayam Masak Merah (Thigh)": {"cal": 350, "prot": 19},
+        "Ayam Masak Merah (Isi)": {"cal": 350, "prot": 28},
         "Kari Ayam (Wings)": {"cal": 150, "prot": 7},
         "Ayam Masak Lemak": {"cal": 300, "prot": 21},
         "Ayam Paprik (Standard)": {"cal": 220, "prot": 20},
@@ -92,7 +94,8 @@ FOOD_DATABASE = {
     "Drinks/Snacks": {
         "Green Tea Latte": {"cal": 130, "prot": 2},
         "Kuih Raya (Small portion)": {"cal": 180, "prot": 1},
-        "Ice Cream Dark Choc Borneo": {"cal": 222, "prot": 3}
+        "Ice Cream Dark Choc Borneo": {"cal": 222, "prot": 3},
+        "Ice Cream Pistachio La Cremeria": {"cal": 210, "prot": 2}
     },
     "Supplements": {
         "Creatine (5g)": {"cal": 0, "prot": 0},
@@ -149,13 +152,15 @@ with log:
         if is_quick_meal:
             # add standalone category check for quick combos
             combo_options = [
-                "Nasi Lemak + 1 Half Egg + Fruits"
+                "Nasi Lemak + 1 Half Egg + Fruits",
+                "Nasi Ayam Full Set"
             ]
             selected_combo = st.selectbox("Choose Preset Combo", combo_options)
 
             # preset parse mapping logic
             preset_map = {
-                "Nasi Lemak + 1 Half Egg + Fruits": {"name": "Nasi Lemak Combo", "cal": 645, "prot": 16}
+                "Nasi Lemak + 1 Half Egg + Fruits": {"name": "Nasi Lemak Combo", "cal": 645, "prot": 16},
+                "Nasi Ayam Full Set": {"name": "Nasi Ayam Full Set", "cal": 640, "prot": 27}
             }
 
             if st.button("Add Combo to Log Basket"):
