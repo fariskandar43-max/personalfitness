@@ -449,7 +449,7 @@ with view:
 
                 if metric_to_plot == "Max Weight (kg)":
                     ex_trend = ex_data.groupby("Date")["Weight"].max()
-                    st.line_chart(ex_trend)
+                    st.line_chart(ex_trend, markers=True)
                 else:
                     # group volume by date shows total work for that day
                     ex_trend = ex_data.groupby("Date")["Volume"].sum()
