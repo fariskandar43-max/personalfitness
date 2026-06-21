@@ -106,7 +106,7 @@ FOOD_DATABASE = {
 # WORKOUT DATABASE
 WORKOUT_DATABASE = {
     "Chest": ["Machine Pec Deck", "Weighted Dips", "Flat Bench Press", "Incline Bench Press", "Decline Bench Press", "DB Chest Fly", "Incline Cable Fly", "Decline Cable Fly", "Push-Ups"],
-    "Back": ["Machine Lat Pullover", "DB Shrugs", "Reverse Pec Deck", "T-Bar Row", "Weighted Pull-Up", "Machine Row", "Barbell Shrug", "DB Shrug"],
+    "Back": ["Machine Lat Pullover", "DB Shrugs", "Reverse Pec Deck", "T-Bar Row", "Weighted Pull-Up", "Machine Row", "Barbell Shrug", "DB Shrug", "Machine Lat Pulldown"],
     "Legs": ["Standing Calf Raise", "Nautilus Glute Drive", "Barbell Hip Thrust", "DB Walking Lunges", "DB Lunges", "Seated Leg Curl", "Lying Leg Curl", "Leg Extension", "Romanian Deadlift"],
     "Bicep": ["DB Wrist Curls", "DB Wrist Extensions", "Bayesian Cable Curl", "Preacher Curl"],
     "Tricep": ["Overhead Cable Triceps Extension", "Tricep Pushdown", "Overhead DB Triceps Extension", "Single Arm OH DB Triceps Extension", "DB Skull Crusher"],
