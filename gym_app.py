@@ -291,6 +291,7 @@ with log:
                 | 4 | Shoulders/Arms | Upper Body Width & Arms | Complete Arm Superset |
                 | 5 | Core/Structural | Posterior Chain & Abs | Cable Crunch, Leg Raise, Wrist Curls |
             """)
+        st.divider()
         
         # 1. selection logic
         muscle_group = st.selectbox("Muscle Group", list(WORKOUT_DATABASE.keys()))
