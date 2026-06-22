@@ -286,10 +286,15 @@ with log:
 
             <div style="overflow-x: auto; white-space: nowrap; width: 100%; font-family: monospace; background-color: #1e1e1e; padding: 10px; border-radius: 5px; color: #ff4b4b;">
             Day 1 [PULL] : Back Thickness & Width -> Focus: Reverse Pec Deck / Rows<br>
+            Choices : [ Machine Lat Pullover | Machine Row | T-Bar Row | DB Shrugs | Barbell Shrug | Weighted Pull-Up ]<br><br>
             Day 2 [PUSH] : Chest Hypertrophy -> Focus: Flat/Decline Sit-Up<br>
+            Choices : [ Flat Bench Press | Incline Bench Press | Weighted Dips | Machine Pec Deck | DB Chest Fly | Incline/Decline Cable Fly ]<br><br> 
             Day 3 [LEGS] : Lower Body Power -> Focus: Standing Calf Raise<br>
+            Choices : [ Romanian Deadlift | Nautilus Glute Drive | Barbell Hip Thrust | DB Walking Lunges | Seated/Lying Leg Curl | Leg Extension ]<br><br>
             Day 4 [ARMS] : Upper Body Width & Arms -> Focus: Complete Arm Superset<br>
-            Day 5 [CORE] : Posterior Chain & Abs -> Focus: Cable Crunch / Deadlift
+            Choices : [ Barbell Overhead Press | Lateral Raise | Face Pulls | Front Raise ]<br><br>
+            Day 5 [CORE] : Posterior Chain & Abs -> Focus: Cable Crunch / Deadlift<br>
+            Choices : [ Supported Leg Raise | DB Wrist Curls (Forearms) ]
             </div>
             
             """, unsafe_allow_html=True)
