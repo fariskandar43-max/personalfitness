@@ -284,17 +284,14 @@ with log:
         with st.expander("📆 5 Day Hypertrophy Blueprint"):
             st.markdown("""
 
-            <div style="overflow-x: auto; white-space: nowrap; width: 100%;">
-            
-                | Day | Focus Split | Objective | Core / Detail Focus |
-                | :--- | :--- | :--- | :--- |
-                | 1 | Pull | Back Thickness & Width | Reverse Pec Deck (Rear Delts) |
-                | 2 | Push | Chest Hypertrophy | Flat/Decline Sit-Up |
-                | 3 | Legs | Lower Body Power | Standing Calf Raise |
-                | 4 | Shoulders/Arms | Upper Body Width & Arms | Complete Arm Superset |
-                | 5 | Core/Structural | Posterior Chain & Abs | Cable Crunch, Leg Raise, Wrist Curls |
-
+            <div style="overflow-x: auto; white-space: nowrap; width: 100%; font-family: monospace; background-color: #1e1e1e; padding: 10px; border-radius: 5px; color: #ff4b4b;">
+            Day 1 [PULL] : Back Thickness & Width -> Focus: Reverse Pec Deck / Rows<br>
+            Day 2 [PUSH] : Chest Hypertrophy -> Focus: Flat/Decline Sit-Up<br>
+            Day 3 [LEGS] : Lower Body Power -> Focus: Standing Calf Raise<br>
+            Day 4 [ARMS] : Upper Body Width & Arms -> Focus: Complete Arm Superset<br>
+            Day 5 [CORE] : Posterior Chain & Abs -> Focus: Cable Crunch / Deadlift
             </div>
+            
             """, unsafe_allow_html=True)
         st.divider()
         
