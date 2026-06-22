@@ -283,6 +283,9 @@ with log:
         # workout plan expander
         with st.expander("📆 5 Day Hypertrophy Blueprint"):
             st.markdown("""
+
+            <div style="overflow-x: auto; white-space: nowrap; width: 100%;">
+            
                 | Day | Focus Split | Objective | Core / Detail Focus |
                 | :--- | :--- | :--- | :--- |
                 | 1 | Pull | Back Thickness & Width | Reverse Pec Deck (Rear Delts) |
@@ -290,7 +293,9 @@ with log:
                 | 3 | Legs | Lower Body Power | Standing Calf Raise |
                 | 4 | Shoulders/Arms | Upper Body Width & Arms | Complete Arm Superset |
                 | 5 | Core/Structural | Posterior Chain & Abs | Cable Crunch, Leg Raise, Wrist Curls |
-            """)
+
+            </div>
+            """, unsafe_allow_html=True)
         st.divider()
         
         # 1. selection logic
