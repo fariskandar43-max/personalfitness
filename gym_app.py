@@ -279,6 +279,19 @@ with log:
     # workout tab
     with tab_workout:
         st.subheader("Lift to Grow 🦾")
+
+        # workout plan expander
+        with st.expander("📆 5 Day Hypertrophy Blueprint"):
+            st.markdown("""
+                | Day | Focus Split | Objective | Core / Detail Focus |
+                | :--- | :--- | :--- | :--- |
+                | 1 | Pull | Back Thickness & Width | Reverse Pec Deck (Rear Delts) |
+                | 2 | Push | Chest Hypertrophy | Flat/Decline Sit-Up |
+                | 3 | Legs | Lower Body Power | Standing Calf Raise |
+                | 4 | Shoulders/Arms | Upper Body Width & Arms | Complete Arm Superset |
+                | 5 | Core/Structural | Posterior Chain & Abs | Cable Crunch, Leg Raise, Wrist Curls |
+            """)
+        
         # 1. selection logic
         muscle_group = st.selectbox("Muscle Group", list(WORKOUT_DATABASE.keys()))
 
