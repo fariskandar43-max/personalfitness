@@ -109,7 +109,7 @@ WORKOUT_DATABASE = {
     "Back": ["Machine Lat Pullover", "DB Shrugs", "Reverse Pec Deck", "T-Bar Row", "Weighted Pull-Up", "Machine Row", "Barbell Shrug", "DB Shrug", "Machine Lat Pulldown", "Low Row"],
     "Legs": ["Standing Calf Raise", "Nautilus Glute Drive", "Barbell Hip Thrust", "DB Walking Lunges", "DB Lunges", "Seated Leg Curl", "Lying Leg Curl", "Leg Extension", "Romanian Deadlift", "Linear Leg Extension", "Barbell Squat", "Calf Leg Press", "Up Down Bench"],
     "Bicep": ["DB Wrist Curls", "DB Wrist Extensions", "Hammer Curls", "UwU Curls", "Bayesian Cable Curl", "Preacher Curl", "Barbell Seated Curl"],
-    "Tricep": ["Overhead Cable Triceps Extension", "Tricep Pushdown", "Overhead DB Triceps Extension", "Single Arm OH DB Triceps Extension", "DB Skull Crusher"],
+    "Tricep": ["Overhead Cable Triceps Extension", "Tricep Pushdown", "Overhead DB Triceps Extension", "Single Arm OH DB Triceps Extension", "DB Skull Crusher", "Triceps Extension" ],
     "Shoulder": ["Barbell Overhead Press", "Lateral Raise", "Face Pulls", "Front Raise"],
     "Neck" : ["Neck Curls", "Neck Extensions"],
     "Abs": ["Cable Crunch", "Flat Sit-Up", "Decline Sit-Up", "Supported Leg Raise"],
